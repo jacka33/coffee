@@ -15,11 +15,11 @@ export function getStaticProps({ params }) {
 }
 
 export function getStaticPaths() {
+    const paths = coffeeStoresData.map(coffeeStore => {
+        return { params: { id: coffeeStore.id.toString() } }
+    })
     return {
-        paths: [
-            { params: { id: '0' } },
-            { params: { id: '1' } }
-        ],
+        paths: paths,
         fallback: true
     }
 }
@@ -30,13 +30,15 @@ const CoffeeStore = (props) => {
     if (router.isFallback) {
         return <div>Loading...</div>
     }
+
+    const { address, name, neighbourhood } = props.coffeeStore;
+
     return (
         <div>
-            {router.query.id}
             <Link href="/"><a>Back to home</a></Link>
-            <Link href="/coffee-store/dynamic"><a>Go to dynamic</a></Link>
-            <p>{props.coffeeStore.address}</p>
-            <p>{props.coffeeStore.name}</p>
+            <p>{address}</p>
+            <p>{name}</p>
+            <p>{neighbourhood}</p>
 
         </div>
     )
